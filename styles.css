@@ -1246,6 +1246,8 @@ a:hover {
 .contact-item a {
     color: var(--color-accent);
     font-weight: 500;
+    word-break: break-word;
+    overflow-wrap: break-word;
 }
 
 .contact-item p {
@@ -1517,6 +1519,16 @@ a:hover {
 
     .section {
         padding: var(--spacing-lg) 0;
+    }
+    
+    /* 手机端联系方式改为竖向排列 */
+    .contact-info {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-sm);
+    }
+    
+    .contact-item {
+        padding: var(--spacing-md);
     }
 }
 
