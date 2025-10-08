@@ -1523,12 +1523,13 @@ a:hover {
     
     /* 手机端联系方式改为竖向排列 */
     .contact-info {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
         gap: var(--spacing-sm);
     }
     
     .contact-item {
         padding: var(--spacing-md);
+        max-width: 100%;
     }
 }
 
