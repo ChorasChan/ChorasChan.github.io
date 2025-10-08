@@ -41,4 +41,3 @@
 │   ├── landscape/        # 风景摄影
 │   └── Documentary/      # 纪实摄影
 └── README.md             # 本文件
-```
