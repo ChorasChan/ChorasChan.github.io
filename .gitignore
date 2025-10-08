@@ -41,3 +41,7 @@ npm-debug.log*
 # Temporary files
 *.tmp
 *.temp
+
+# Private files (not to be published)
+CV-Honghui Chen-0925.docx
+Ningzhe Zhu_*.png
