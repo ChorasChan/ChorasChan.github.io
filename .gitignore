@@ -45,3 +45,13 @@ npm-debug.log*
 # Private files (not to be published)
 CV-Honghui Chen-0925.docx
 Ningzhe Zhu_*.png
+
+# Backup files
+pic_backup_*/
+*.backup
+
+# Optimization scripts (keep locally, no need to publish)
+optimize-images.sh
+create-thumbnails.sh
+update-html-thumbnails.sh
+optimize-backgrounds.sh
