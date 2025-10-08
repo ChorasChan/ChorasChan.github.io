@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Honghui Chen - Photography Gallery">
+    <title>Photography - Honghui Chen</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Minimalist Photography Page Styles */
+        body {
+            background-color: #fafafa;
+        }
+
+        /* Keep navbar consistent with main page */
+        #navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: transparent;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        /* Minimalist Hero with Background */
+        .photography-hero {
+            position: relative;
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 2rem 4rem;
+            overflow: hidden;
+        }
+
+        .photography-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url('pic/BG2.JPG');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -1;
+        }
+
+        .photography-hero > div {
+            position: relative;
+            z-index: 1;
+        }
+
+        .photography-hero h1 {
+            font-size: 3.5rem;
+            color: #ffffff;
+            margin-bottom: 1rem;
+            font-weight: 300;
+            letter-spacing: -0.5px;
+        }
+
+        .photography-hero p {
+            font-size: 1.1rem;
+            color: #ffffff;
+            max-width: 500px;
+            margin: 0 auto;
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        .photography-description {
+            font-size: 1.25rem !important;
+            font-weight: 400 !important;
+            margin-bottom: 1.5rem !important;
+            opacity: 0.95;
+            max-width: 650px !important;
+        }
+
+        .photography-quote {
+            font-size: 1rem !important;
+            font-style: italic;
+            opacity: 0.85;
+            max-width: 500px !important;
+        }
+
+        /* Gallery Container with Side Navigation */
+        .gallery-container {
+            display: flex;
+            position: relative;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Side Navigation for Gallery */
+        .gallery-nav {
+            position: sticky;
+            top: 50vh;
+            transform: translateY(-50%);
+            align-self: flex-start;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            padding-right: 3rem;
+            min-width: 150px;
+        }
+
+        .gallery-nav-link {
+            color: #999;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 300;
+            font-family: 'Crimson Text', serif;
+            transition: all 0.3s ease;
+            text-align: left;
+            white-space: nowrap;
+            letter-spacing: 1px;
+        }
+
+        .gallery-nav-link:hover {
+            color: #4a90e2;
+            transform: translateX(8px);
+        }
+
+        .gallery-nav-link.active {
+            color: #2c2c2c;
+            font-weight: 400;
+            transform: translateX(8px);
+        }
+
+        .gallery-sections {
+            flex: 1;
+        }
+
+        @media (max-width: 1200px) {
+            .gallery-nav {
+                display: none;
+            }
+            
+            .gallery-container {
+                display: block;
+            }
+        }
+
+        .gallery-section {
+            padding: 4rem 0 6rem;
+            background-color: #fafafa;
+            scroll-margin-top: 80px;
+        }
+
+        .gallery-content-wrapper {
+            display: flex;
+            position: relative;
+        }
+
+        .gallery-main-content {
+            flex: 1;
+        }
+
+        .gallery-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 0 2rem;
+        }
+
+        .gallery-header h2 {
+            font-size: 2rem;
+            color: #2c2c2c;
+            margin-bottom: 0.8rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .gallery-header p {
+            color: #8c8c8c;
+            font-size: 1rem;
+            font-weight: 300;
+        }
+
+        /* Minimalist Grid Layout */
+        .minimal-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: #fafafa;
+        }
+
+        .grid-item {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            aspect-ratio: 1/1;
+            background-color: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px;
+        }
+
+        .grid-item img {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            display: block;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            filter: grayscale(0%);
+        }
+
+        .grid-item:hover img {
+            transform: scale(1.02);
+            filter: grayscale(0%);
+        }
+
+        .grid-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .grid-item:hover .grid-overlay {
+            background: rgba(0, 0, 0, 0.3);
+            opacity: 1;
+        }
+
+        .grid-caption {
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .grid-caption::before {
+            content: 'View';
+        }
+
+        /* Enhanced Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 3000;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(255, 255, 255, 0.98);
+            animation: fadeIn 0.3s ease;
+            overflow: hidden;
+        }
+
+        .lightbox.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox-content {
+            max-width: 90vw;
+            max-height: 85vh;
+            object-fit: contain;
+            animation: zoomIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            color: #2c2c2c;
+            font-size: 2.5rem;
+            font-weight: 200;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox-close:hover {
+            color: #000;
+            transform: rotate(90deg);
+        }
+
+        .lightbox-prev,
+        .lightbox-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: transparent;
+            color: #2c2c2c;
+            border: none;
+            font-size: 2.5rem;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 200;
+        }
+
+        .lightbox-prev:hover,
+        .lightbox-next:hover {
+            color: #000;
+        }
+
+        .lightbox-prev {
+            left: 40px;
+        }
+
+        .lightbox-next {
+            right: 40px;
+        }
+
+        .lightbox-info {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #2c2c2c;
+            text-align: center;
+            max-width: 80%;
+        }
+
+        .lightbox-title {
+            font-size: 1.1rem;
+            font-weight: 300;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .lightbox-description {
+            font-size: 0.95rem;
+            color: #6c6c6c;
+            font-weight: 300;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .minimal-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .photography-hero h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .minimal-grid {
+                grid-template-columns: 1fr;
+                gap: 1px;
+            }
+
+            .photography-hero {
+                padding: 100px 1.5rem 3rem;
+                min-height: 50vh;
+            }
+
+            .photography-hero h1 {
+                font-size: 2rem;
+            }
+
+            .lightbox-prev,
+            .lightbox-next {
+                font-size: 1.8rem;
+                padding: 0.5rem;
+            }
+
+            .lightbox-prev {
+                left: 15px;
+            }
+
+            .lightbox-next {
+                right: 15px;
+            }
+
+            .lightbox-close {
+                top: 15px;
+                right: 20px;
+                font-size: 2rem;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">Choras Chan</a>
+            <ul class="nav-menu">
+                <li><a href="index.html#home" class="nav-link">Home</a></li>
+                <li><a href="index.html#research" class="nav-link">Interests</a></li>
+                <li><a href="index.html#skills" class="nav-link">Skills</a></li>
+                <li><a href="index.html#education" class="nav-link">Education</a></li>
+                <li><a href="index.html#publications" class="nav-link">Publications</a></li>
+                <li><a href="index.html#conferences" class="nav-link">Conferences</a></li>
+                <li><a href="index.html#awards" class="nav-link">Awards</a></li>
+                <li><a href="photography.html" class="nav-link active">Photography</a></li>
+                <li><a href="index.html#experience" class="nav-link">Experience</a></li>
+                <li><a href="index.html#about" class="nav-link">About</a></li>
+            </ul>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+        <!-- Hero Section -->
+    <section class="photography-hero">
+        <div>
+            <h1>Photography</h1>
+            <p class="photography-description">Moments from academic life, personal journeys, natural landscapes, and human stories — capturing the light in everyday existence</p>
+            <p class="photography-quote">"As far as we can discern, the sole purpose of human existence is to kindle a light in the darkness of mere being." — Carl Jung</p>
+        </div>
+    </section>
+
+    <!-- Gallery Sections with Side Navigation -->
+    <div class="gallery-container">
+        <!-- Side Navigation for Gallery Sections -->
+        <nav class="gallery-nav">
+            <a href="#personal-section" class="gallery-nav-link active">Personal</a>
+            <a href="#landscape-section" class="gallery-nav-link">Landscape</a>
+            <a href="#documentary-section" class="gallery-nav-link">Documentary</a>
+        </nav>
+
+        <div class="gallery-sections">
+            <!-- Personal Photos Section -->
+            <section id="personal-section" class="gallery-section">
+        <div class="container">
+            <div class="gallery-header">
+                <h2>Personal</h2>
+                <p>Research moments and life snapshots</p>
+            </div>
+            
+            <div class="minimal-grid">
+                <div class="grid-item" data-src="pic/personal/personal1.jpg" data-title="Personal" data-desc="">
+                    <img src="pic/personal/personal1.jpg" alt="Personal 1">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/personal/personal3.jpg" data-title="Personal" data-desc="">
+                    <img src="pic/personal/personal3.jpg" alt="Personal 2">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/personal/personal4.jpg" data-title="Personal" data-desc="">
+                    <img src="pic/personal/personal4.jpg" alt="Personal 3">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/personal/personal5.jpg" data-title="Personal" data-desc="">
+                    <img src="pic/personal/personal5.jpg" alt="Personal 4">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/personal/personal6.jpg" data-title="Personal" data-desc="">
+                    <img src="pic/personal/personal6.jpg" alt="Personal 5">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/personal/personal7.jpg" data-title="Personal" data-desc="">
+                    <img src="pic/personal/personal7.jpg" alt="Personal 6">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/personal/personal8.jpg" data-title="Personal" data-desc="">
+                    <img src="pic/personal/personal8.jpg" alt="Personal 7">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/personal/personal9.jpg" data-title="Personal" data-desc="">
+                    <img src="pic/personal/personal9.jpg" alt="Personal 8">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/personal/personal10.jpg" data-title="Personal" data-desc="">
+                    <img src="pic/personal/personal10.jpg" alt="Personal 9">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/personal/_MG_0916.JPG" data-title="Personal" data-desc="">
+                    <img src="pic/personal/_MG_0916.JPG" alt="Personal 10">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/personal/DSCF2952.JPG" data-title="Personal" data-desc="">
+                    <img src="pic/personal/DSCF2952.JPG" alt="Personal 11">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/personal/IMG_0644.jpeg" data-title="Personal" data-desc="">
+                    <img src="pic/personal/IMG_0644.jpeg" alt="Personal 12">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/personal/IMG_1667.jpeg" data-title="Personal" data-desc="">
+                    <img src="pic/personal/IMG_1667.jpeg" alt="Personal 13">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/personal/IMG_1787.jpeg" data-title="Personal" data-desc="">
+                    <img src="pic/personal/IMG_1787.jpeg" alt="Personal 14">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/personal/IMG_2220.JPG" data-title="Personal" data-desc="">
+                    <img src="pic/personal/IMG_2220.JPG" alt="Personal 15">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/personal/IMG_2421.JPG" data-title="Personal" data-desc="">
+                    <img src="pic/personal/IMG_2421.JPG" alt="Personal 16">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/personal/IMG_3224.JPG" data-title="Personal" data-desc="">
+                    <img src="pic/personal/IMG_3224.JPG" alt="Personal 17">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Landscape Photography Section -->
+    <section id="landscape-section" class="gallery-section" style="background-color: #ffffff;">
+        <div class="container">
+            <div class="gallery-header">
+                <h2>Landscape Photography</h2>
+                <p>Natural beauty and scenic explorations</p>
+            </div>
+            
+            <div class="minimal-grid">
+                <div class="grid-item" data-src="pic/landscape/DSC00153.JPG" data-title="Landscape" data-desc="">
+                    <img src="pic/landscape/DSC00153.JPG" alt="Landscape 1">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/landscape/DSC00469.JPG" data-title="Landscape" data-desc="">
+                    <img src="pic/landscape/DSC00469.JPG" alt="Landscape 2">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/landscape/IMG_0314.jpeg" data-title="Landscape" data-desc="">
+                    <img src="pic/landscape/IMG_0314.jpeg" alt="Landscape 3">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/landscape/IMG_6464.JPG" data-title="Landscape" data-desc="">
+                    <img src="pic/landscape/IMG_6464.JPG" alt="Landscape 4">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/landscape/IMG_6468.JPG" data-title="Landscape" data-desc="">
+                    <img src="pic/landscape/IMG_6468.JPG" alt="Landscape 5">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/landscape/IMG_8438.jpeg" data-title="Landscape" data-desc="">
+                    <img src="pic/landscape/IMG_8438.jpeg" alt="Landscape 6">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/landscape/IMG_8992.jpeg" data-title="Landscape" data-desc="">
+                    <img src="pic/landscape/IMG_8992.jpeg" alt="Landscape 7">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/landscape/photo3.jpg" data-title="Landscape" data-desc="">
+                    <img src="pic/landscape/photo3.jpg" alt="Landscape 8">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/landscape/photo7.jpg" data-title="Landscape" data-desc="">
+                    <img src="pic/landscape/photo7.jpg" alt="Landscape 9">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/landscape/photo8.jpg" data-title="Landscape" data-desc="">
+                    <img src="pic/landscape/photo8.jpg" alt="Landscape 10">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/landscape/photo9.jpg" data-title="Landscape" data-desc="">
+                    <img src="pic/landscape/photo9.jpg" alt="Landscape 11">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/landscape/photo11.jpg" data-title="Landscape" data-desc="">
+                    <img src="pic/landscape/photo11.jpg" alt="Landscape 12">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/landscape/photo15.jpg" data-title="Landscape" data-desc="">
+                    <img src="pic/landscape/photo15.jpg" alt="Landscape 13">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Documentary Photography Section -->
+    <section id="documentary-section" class="gallery-section" style="background-color: #fafafa;">
+        <div class="container">
+            <div class="gallery-header">
+                <h2>Documentary Photography</h2>
+                <p>Stories and moments captured in time</p>
+            </div>
+            
+            <div class="minimal-grid">
+                <div class="grid-item" data-src="pic/Documentary/photo1.jpg" data-title="Documentary" data-desc="">
+                    <img src="pic/Documentary/photo1.jpg" alt="Documentary 1">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/Documentary/photo2.jpg" data-title="Documentary" data-desc="">
+                    <img src="pic/Documentary/photo2.jpg" alt="Documentary 2">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/Documentary/photo4.jpg" data-title="Documentary" data-desc="">
+                    <img src="pic/Documentary/photo4.jpg" alt="Documentary 3">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/Documentary/photo5.jpg" data-title="Documentary" data-desc="">
+                    <img src="pic/Documentary/photo5.jpg" alt="Documentary 4">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/Documentary/photo6.jpg" data-title="Documentary" data-desc="">
+                    <img src="pic/Documentary/photo6.jpg" alt="Documentary 5">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/Documentary/photo10.jpg" data-title="Documentary" data-desc="">
+                    <img src="pic/Documentary/photo10.jpg" alt="Documentary 6">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/Documentary/photo12.jpg" data-title="Documentary" data-desc="">
+                    <img src="pic/Documentary/photo12.jpg" alt="Documentary 7">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/Documentary/photo13.jpg" data-title="Documentary" data-desc="">
+                    <img src="pic/Documentary/photo13.jpg" alt="Documentary 8">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/Documentary/photo14.jpg" data-title="Documentary" data-desc="">
+                    <img src="pic/Documentary/photo14.jpg" alt="Documentary 9">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/Documentary/photo16.jpg" data-title="Documentary" data-desc="">
+                    <img src="pic/Documentary/photo16.jpg" alt="Documentary 10">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/Documentary/photo17.jpg" data-title="Documentary" data-desc="">
+                    <img src="pic/Documentary/photo17.jpg" alt="Documentary 11">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/Documentary/DSC00563.JPG" data-title="Documentary" data-desc="">
+                    <img src="pic/Documentary/DSC00563.JPG" alt="Documentary 12">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/Documentary/DSC00622.JPG" data-title="Documentary" data-desc="">
+                    <img src="pic/Documentary/DSC00622.JPG" alt="Documentary 13">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/Documentary/DSC00654.JPG" data-title="Documentary" data-desc="">
+                    <img src="pic/Documentary/DSC00654.JPG" alt="Documentary 14">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/Documentary/DSCF5153.JPG" data-title="Documentary" data-desc="">
+                    <img src="pic/Documentary/DSCF5153.JPG" alt="Documentary 15">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/Documentary/DSCF6786.JPG" data-title="Documentary" data-desc="">
+                    <img src="pic/Documentary/DSCF6786.JPG" alt="Documentary 16">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/Documentary/IMG_0309.JPG" data-title="Documentary" data-desc="">
+                    <img src="pic/Documentary/IMG_0309.JPG" alt="Documentary 17">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/Documentary/IMG_2444.jpeg" data-title="Documentary" data-desc="">
+                    <img src="pic/Documentary/IMG_2444.jpeg" alt="Documentary 18">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div>
+
+                <div class="grid-item" data-src="pic/Documentary/IMG_8313.jpeg" data-title="Documentary" data-desc="">
+                    <img src="pic/Documentary/IMG_8313.jpeg" alt="Documentary 19">
+                    <div class="grid-overlay">
+                        <span class="grid-caption"></span>
+                    </div>
+                </div> 
+                </div>
+            </div>
+        </div>
+    </section>
+        </div><!-- Close gallery-sections -->
+    </div><!-- Close gallery-container -->
+
+    <!-- Ongoing Updates Notice -->
+    <div style="text-align: center; padding: 3rem 2rem; background-color: #fafafa;">
+        <p style="font-size: 1.1rem; color: #999; font-family: 'Crimson Text', serif; font-style: italic; letter-spacing: 1px;">
+            To be continued... More moments to come ✨
+        </p>
+    </div>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox">
+        <span class="lightbox-close">&times;</span>
+        <img class="lightbox-content" id="lightbox-img">
+        <div class="lightbox-info">
+            <div class="lightbox-title"></div>
+            <div class="lightbox-description"></div>
+        </div>
+        <button class="lightbox-prev">&#10094;</button>
+        <button class="lightbox-next">&#10095;</button>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </button>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Honghui Chen</p>
+            <p class="visitor-count">
+                <span style="margin-right: 0.5rem;">👁️</span>
+                Visitors: <span id="visitor-count-number">Loading...</span>
+            </p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Photography page specific script
+        document.addEventListener('DOMContentLoaded', function() {
+            // Visitor counter
+            let visitCount = localStorage.getItem('visitCount');
+            if (!visitCount) {
+                visitCount = Math.floor(Math.random() * 100) + 500;
+            }
+            visitCount = parseInt(visitCount) + 1;
+            localStorage.setItem('visitCount', visitCount);
+            document.getElementById('visitor-count-number').textContent = visitCount.toLocaleString();
+
+            // Gallery navigation active state
+            const sections = document.querySelectorAll('.gallery-section');
+            const navLinks = document.querySelectorAll('.gallery-nav-link');
+
+            // Smooth scroll for navigation
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetSection = document.querySelector(targetId);
+                    
+                    targetSection.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                });
+            });
+
+            // Update active state on scroll
+            function updateActiveNav() {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (pageYOffset >= sectionTop - 200) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === '#' + current) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+
+            window.addEventListener('scroll', updateActiveNav);
+
+            // Lightbox functionality
+            const gridItems = document.querySelectorAll('.grid-item');
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const lightboxTitle = document.querySelector('.lightbox-title');
+            const lightboxDesc = document.querySelector('.lightbox-description');
+            const closeBtn = document.querySelector('.lightbox-close');
+            const prevBtn = document.querySelector('.lightbox-prev');
+            const nextBtn = document.querySelector('.lightbox-next');
+
+            let currentIndex = 0;
+            let savedScrollY = 0;
+            const itemsArray = Array.from(gridItems);
+
+            // Open lightbox
+            gridItems.forEach((item, index) => {
+                item.addEventListener('click', function() {
+                    currentIndex = index;
+                    openLightbox(this);
+                });
+            });
+
+            function openLightbox(item) {
+                const imgSrc = item.getAttribute('data-src');
+                const title = item.getAttribute('data-title') || '';
+                const desc = item.getAttribute('data-desc') || '';
+                
+                // 保存当前滚动位置
+                savedScrollY = window.scrollY;
+                document.body.style.position = 'fixed';
+                document.body.style.top = `-${savedScrollY}px`;
+                document.body.style.width = '100%';
+                
+                lightboxImg.src = imgSrc;
+                lightboxTitle.textContent = title;
+                lightboxDesc.textContent = desc;
+                lightbox.classList.add('active');
+            }
+
+            // Close lightbox
+            function closeLightbox() {
+                // 恢复滚动位置
+                document.body.style.position = '';
+                document.body.style.top = '';
+                document.body.style.width = '';
+                window.scrollTo(0, savedScrollY);
+                
+                lightbox.classList.remove('active');
+            }
+
+            if (closeBtn) {
+                closeBtn.addEventListener('click', closeLightbox);
+            }
+
+            lightbox.addEventListener('click', function(e) {
+                if (e.target === lightbox) {
+                    closeLightbox();
+                }
+            });
+
+            // Navigation
+            if (prevBtn) {
+                prevBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    currentIndex = (currentIndex - 1 + itemsArray.length) % itemsArray.length;
+                    openLightbox(itemsArray[currentIndex]);
+                });
+            }
+
+            if (nextBtn) {
+                nextBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    currentIndex = (currentIndex + 1) % itemsArray.length;
+                    openLightbox(itemsArray[currentIndex]);
+                });
+            }
+
+            // Keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (!lightbox.classList.contains('active')) return;
+
+                if (e.key === 'Escape') {
+                    closeLightbox();
+                } else if (e.key === 'ArrowLeft') {
+                    prevBtn.click();
+                } else if (e.key === 'ArrowRight') {
+                    nextBtn.click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
