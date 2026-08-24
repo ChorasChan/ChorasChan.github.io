@@ -1,162 +1,98 @@
-// ========================================
-// Back to Top Button
-// ========================================
 document.addEventListener('DOMContentLoaded', function() {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const scrollBehavior = prefersReducedMotion ? 'auto' : 'smooth';
+
+    // Back to Top Button
     const backToTopButton = document.getElementById('back-to-top');
-    
-    if (backToTopButton) {
-        // Show/hide button based on scroll position
-        window.addEventListener('scroll', function() {
-            if (window.pageYOffset > 300) {
-                backToTopButton.classList.add('show');
-            } else {
-                backToTopButton.classList.remove('show');
-            }
-        });
-        
-        // Smooth scroll to top when clicked
+    const homeSection = document.getElementById('home');
+
+    if (backToTopButton && homeSection) {
+        const homeObserver = new IntersectionObserver(([entry]) => {
+            backToTopButton.classList.toggle('show', !entry.isIntersecting);
+        }, { threshold: 0.05 });
+
+        homeObserver.observe(homeSection);
         backToTopButton.addEventListener('click', function() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
+            window.scrollTo({ top: 0, behavior: scrollBehavior });
         });
     }
-});
 
-// ========================================
-// Publication Filter Buttons
-// ========================================
-document.addEventListener('DOMContentLoaded', function() {
+    // Publication Filter Buttons
     const filterButtons = document.querySelectorAll('.filter-btn');
     const publicationItems = document.querySelectorAll('.publication-item');
-    
-    if (filterButtons.length === 0) return;
-    
+
     filterButtons.forEach(button => {
+        button.setAttribute('aria-pressed', button.classList.contains('active'));
+
         button.addEventListener('click', function() {
             const filter = this.getAttribute('data-filter');
-            
-            // Update active button
-            filterButtons.forEach(btn => btn.classList.remove('active'));
+
+            filterButtons.forEach(btn => {
+                const isActive = btn === this;
+                btn.classList.toggle('active', isActive);
+                btn.setAttribute('aria-pressed', isActive);
+            });
             this.classList.add('active');
-            
-            // Filter publications
+
             publicationItems.forEach(item => {
                 const category = item.getAttribute('data-category');
-                
-                if (filter === 'all' || category === filter) {
-                    item.style.display = 'flex';
-                } else {
-                    item.style.display = 'none';
-                }
+                item.classList.toggle('hidden', filter !== 'all' && category !== filter);
             });
         });
     });
-});
 
-// ========================================
-// Navigation Toggle for Mobile
-// ========================================
-document.addEventListener('DOMContentLoaded', function() {
+    // Navigation Toggle for Mobile
     const navToggle = document.querySelector('.nav-toggle');
     const navMenu = document.querySelector('.nav-menu');
-    
+
     if (navToggle && navMenu) {
+        const closeMenu = () => {
+            navMenu.classList.remove('active');
+            navToggle.classList.remove('active');
+            navToggle.setAttribute('aria-expanded', 'false');
+        };
+
         navToggle.addEventListener('click', function() {
-            navMenu.classList.toggle('active');
-            navToggle.classList.toggle('active');
+            const isOpen = navMenu.classList.toggle('active');
+            navToggle.classList.toggle('active', isOpen);
+            navToggle.setAttribute('aria-expanded', isOpen);
         });
-        
-        // Close menu when clicking on a link
-        const navLinks = document.querySelectorAll('.nav-link');
-        navLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                navMenu.classList.remove('active');
-                navToggle.classList.remove('active');
-            });
+
+        navMenu.querySelectorAll('.nav-link').forEach(link => link.addEventListener('click', closeMenu));
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape') closeMenu();
         });
     }
-});
 
-// ========================================
-// Sticky Navigation - DISABLED (navigation is no longer fixed)
-// ========================================
-// Navigation is now absolute positioned and scrolls with the page
-
-// ========================================
-// Side Navigation Active State
-// ========================================
-document.addEventListener('DOMContentLoaded', function() {
+    // Navigation Active State
     const sideNavLinks = document.querySelectorAll('.side-nav-link');
+    const sectionNavLinks = document.querySelectorAll('.side-nav-link, .nav-link[href^="#"]');
     const sections = document.querySelectorAll('section[id]');
-    
-    if (sideNavLinks.length === 0) return;
-    
-    console.log('Side nav initialized with', sideNavLinks.length, 'links and', sections.length, 'sections');
-    
-    // Smooth scroll for side navigation
+
     sideNavLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
-            const targetId = this.getAttribute('href');
-            const targetSection = document.querySelector(targetId);
-            
+            const targetSection = document.querySelector(this.getAttribute('href'));
+
             if (targetSection) {
-                // No offset needed since navbar is not fixed
-                const targetPosition = targetSection.offsetTop;
-                
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
+                targetSection.scrollIntoView({ behavior: scrollBehavior, block: 'start' });
             }
         });
     });
 
-    // Update active state on scroll
-    function updateActiveSideNav() {
-        const scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
-        let currentSection = 'home';
-        
-        // Find the current section based on scroll position
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop - 250; // Offset for better UX
-            const sectionBottom = sectionTop + section.offsetHeight;
-            const sectionId = section.getAttribute('id');
-            
-            if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
-                currentSection = sectionId;
-            }
-        });
-        
-        console.log('Current scroll:', scrollPosition, 'Active section:', currentSection);
-        
-        // Update active class
-        sideNavLinks.forEach(link => {
-            const linkHref = link.getAttribute('href').substring(1);
-            if (linkHref === currentSection) {
-                link.classList.add('active');
-            } else {
-                link.classList.remove('active');
-            }
-        });
-    }
+    if (sections.length && sectionNavLinks.length) {
+        const sectionObserver = new IntersectionObserver(entries => {
+            const activeEntry = entries.find(entry => entry.isIntersecting);
+            if (!activeEntry) return;
 
-    // Listen to scroll events with throttle for performance
-    let ticking = false;
-    window.addEventListener('scroll', function() {
-        if (!ticking) {
-            window.requestAnimationFrame(function() {
-                updateActiveSideNav();
-                ticking = false;
+            const activeId = activeEntry.target.id;
+            sectionNavLinks.forEach(link => {
+                link.classList.toggle('active', link.getAttribute('href') === `#${activeId}`);
             });
-            ticking = true;
-        }
-    }, { passive: true });
-    
-    // Initial update
-    updateActiveSideNav();
+        }, { rootMargin: '-20% 0px -70% 0px' });
+
+        sections.forEach(section => sectionObserver.observe(section));
+    }
 });
 
 // ========================================

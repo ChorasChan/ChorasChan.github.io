@@ -220,9 +220,6 @@ a:hover {
     padding-bottom: var(--spacing-lg);
     overflow: hidden;
     scroll-margin-top: 0;
-    /* 性能优化 */
-    will-change: scroll-position;
-    transform: translateZ(0);
 }
 
 /* 背景图片层 */
@@ -237,12 +234,8 @@ a:hover {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    filter: blur(3px);
-    transform: scale(1.05) translateZ(0);
+    transform: scale(1.02);
     z-index: 0;
-    /* 性能优化 */
-    will-change: transform;
-    backface-visibility: hidden;
 }
 
 /* 轻微的玻璃遮罩层 */
@@ -253,11 +246,8 @@ a:hover {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(255, 255, 255, 0.25);
-    backdrop-filter: blur(1px);
-    -webkit-backdrop-filter: blur(1px);
+    background: rgba(255, 255, 255, 0.42);
     z-index: 1;
-    transform: translateZ(0);
 }
 
 .hero-container {
@@ -546,6 +536,10 @@ a:hover {
     animation-delay: 0.3s;
 }
 
+.timeline-item:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
 .timeline-date {
     flex: 0 0 130px;
     font-weight: 600;
@@ -569,6 +563,28 @@ a:hover {
     border-radius: 12px;
     background-color: #f8f9fa;
     padding: 8px;
+}
+
+.uoe-crest-frame {
+    width: 80px;
+    height: 80px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    flex: none;
+    border-radius: 12px;
+    background-color: #f8f9fa;
+}
+
+.timeline-logo .uoe-crest {
+    width: auto;
+    height: 100%;
+    max-width: none;
+    flex: none;
+    object-fit: contain;
+    padding: 2px;
+    border-radius: 0;
+    background: transparent;
 }
 
 .logo-placeholder {
@@ -1392,21 +1408,32 @@ a:hover {
         font-size: 14px;
     }
 
+    .hero {
+        min-height: calc(100vh - 2rem);
+        min-height: calc(100svh - 2rem);
+        padding-bottom: var(--spacing-sm);
+    }
+
     .nav-menu {
         position: fixed;
         top: 70px;
-        left: -100%;
+        left: 0;
         width: 100%;
         flex-direction: column;
         background-color: rgba(255, 255, 255, 0.95);
         backdrop-filter: blur(10px);
         padding: var(--spacing-md);
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        transition: left 0.3s ease;
+        transform: translateX(-100%);
+        visibility: hidden;
+        pointer-events: none;
+        transition: transform 0.3s ease;
     }
 
     .nav-menu.active {
-        left: 0;
+        transform: translateX(0);
+        visibility: visible;
+        pointer-events: auto;
     }
 
     .nav-toggle {
@@ -1421,13 +1448,13 @@ a:hover {
     }
 
     .hero-image {
-        flex: 0 0 200px;
-        margin-top: 80px;
+        flex: 0 0 150px;
+        margin-top: 60px;
     }
 
     .profile-photo {
-        width: 200px;
-        height: 200px;
+        width: 150px;
+        height: 150px;
     }
 
     .hero-title {
@@ -1436,6 +1463,12 @@ a:hover {
 
     .hero-tags {
         justify-content: center;
+    }
+
+    .hero-bio {
+        font-size: 0.9rem;
+        line-height: 1.6;
+        text-align: left;
     }
 
     .timeline::before {
@@ -1499,7 +1532,8 @@ a:hover {
     }
     
     .timeline-logo img,
-    .logo-placeholder {
+    .logo-placeholder,
+    .uoe-crest-frame {
         width: 60px;
         height: 60px;
     }
@@ -1640,7 +1674,6 @@ a:hover {
     gap: 1.5rem;
     z-index: 9999 !important;
     pointer-events: auto;
-    will-change: transform;
     isolation: isolate;
 }
 
@@ -1672,5 +1705,28 @@ a:hover {
 @media (max-width: 1200px) {
     .side-nav {
         display: none;
+    }
+}
+
+/* ========================================
+   Accessibility & Motion Preferences
+   ======================================== */
+:focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
     }
 }

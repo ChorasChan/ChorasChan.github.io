@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Honghui Chen - Master Student in Psychology at Central South University, specializing in AI for Psychology and Clinical Psychology">
-    <title>Honghui Chen - Psychology Researcher</title>
+    <meta name="description" content="Honghui Chen - Incoming PhD student in Psychiatry at the University of Edinburgh, researching AI for psychology and digital mental health">
+    <title>Honghui Chen - Incoming PhD Student in Psychiatry</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
@@ -13,7 +13,7 @@
     <nav id="navbar">
         <div class="nav-container">
             <a href="#home" class="nav-brand">Choras Chan</a>
-            <ul class="nav-menu">
+            <ul id="primary-navigation" class="nav-menu">
                 <li><a href="#home" class="nav-link">Home</a></li>
                 <li><a href="#research" class="nav-link">Interests</a></li>
                 <li><a href="#skills" class="nav-link">Skills</a></li>
@@ -25,7 +25,7 @@
                 <li><a href="#experience" class="nav-link">Experience</a></li>
                 <li><a href="#about" class="nav-link">About</a></li>
             </ul>
-            <button class="nav-toggle" aria-label="Toggle navigation">
+            <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-controls="primary-navigation" aria-expanded="false">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -53,9 +53,9 @@
                 <img src="pic/personal2.jpg" alt="Honghui Chen Portrait" class="profile-photo">
             </div>
             <div class="hero-content">
-                <h1 class="hero-title">Honghui Chen(Choras Chan)</h1>
-                <p class="hero-subtitle">Master of Education in Psychology</p>
-                <p class="hero-affiliation">Central South University</p>
+                <h1 class="hero-title">Honghui Chen (Choras Chan)</h1>
+                <p class="hero-subtitle">Incoming PhD Student in Psychiatry</p>
+                <p class="hero-affiliation">University of Edinburgh · Supervisor: Dr Alex Kwong</p>
                 
                 <!-- Social Icons -->
                 <div class="hero-social-icons">
@@ -92,7 +92,7 @@
                 </div>
                 
                 <p class="hero-bio">
-                    I am a Master student at Central South University (The Second Xiangya Hospital), specializing in <strong>AI for Psychology</strong> and <strong>Digital Mental Health</strong>. My research focuses on leveraging machine learning and large language models to advance clinical psychology and psychological assessment. I have gained extensive clinical and research experience as a research assistant at institutions including Tsinghua University (CoAI Lab, PI Lab) and the National Center for Mental Disorders (The Second Xiangya Hospital). I have participated in innovative projects including <strong>PsychoGAT</strong> and <strong>MAGI</strong>, with publications in <em>Applied Psychology: health and wellbeing</em> and <em>Translational Psychiatry</em>.
+                    I am an incoming PhD student in Psychiatry at the <strong>University of Edinburgh</strong>, supervised by <strong>Dr Alex Kwong</strong>. My research uses machine learning and large language models to advance psychological assessment and digital mental health. After completing my master's training at Central South University (The Second Xiangya Hospital), I gained clinical and research experience with Tsinghua University and the National Center for Mental Disorders. My work includes <strong>PsychoGAT</strong> and <strong>MAGI</strong>, with publications in <em>Applied Psychology: Health and Well-Being</em> and <em>Translational Psychiatry</em>.
                 </p>
             </div>
         </div>
@@ -150,6 +150,20 @@
         <div class="container">
             <h2 class="section-title">Education</h2>
             <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">From 2026</div>
+                    <div class="timeline-logo">
+                        <div class="uoe-crest-frame">
+                            <img src="pic/logos/UoE.png" class="uoe-crest" alt="University of Edinburgh crest">
+                        </div>
+                    </div>
+                    <div class="timeline-content">
+                        <h3>PhD in Psychiatry</h3>
+                        <p class="institution">University of Edinburgh</p>
+                        <p class="description">Incoming doctoral student<br>
+                        Supervisor: Dr Alex Kwong</p>
+                    </div>
+                </div>
                 <div class="timeline-item">
                     <div class="timeline-date">2023 - 2026</div>
                     <div class="timeline-logo">
@@ -645,7 +659,7 @@
                     But life isn't all about research. Beyond the lab and lecture halls, I'm an explorer at heart. 📷 With my camera, I chase light across urban streets and mountain peaks, capturing fleeting moments that reveal the extraordinary in the ordinary—whether it's the golden hour painting Changsha's skyline or the raw emotions on a stranger's face. 🚴‍♂️ On my bike, I've traced countless routes through unfamiliar cities and countryside, finding that the rhythm of pedaling clears my mind and sparks unexpected research insights. 🏔️ And when life permits, I pack my gear and head to the mountains, where the challenge of hiking snow-covered peaks reminds me that the most rewarding journeys require patience, preparation, and a willingness to embrace discomfort. These pursuits aren't separate from my academic work; they're essential to it. Photography has trained my eye to observe subtle patterns and emotions—skills that translate directly into understanding human behavior. The endurance from long rides and mountain treks mirrors the persistence needed in research. The curiosity that drives me to explore new landscapes is the same curiosity that fuels my desire to explore uncharted territories in computational psychology.
                 </p>
                 <p>
-                    Looking ahead, I'm committed to deepening this work through doctoral studies, pushing the boundaries of AI-enabled mental health solutions. I want to create systems that genuinely serve human well-being, not just process data. Whether developing new assessment tools or presenting research findings, I'm driven by the same fundamental curiosity: <em>What makes us human, and how can we use our knowledge to help each other thrive?</em>
+                    I will continue this work as a PhD student in Psychiatry at the University of Edinburgh under the supervision of Dr Alex Kwong, pushing the boundaries of AI-enabled mental health research. I want to create systems that genuinely serve human well-being, not just process data. Whether developing new assessment tools or presenting research findings, I'm driven by the same fundamental curiosity: <em>What makes us human, and how can we use our knowledge to help each other thrive?</em>
                 </p>
                 <p>
                     If you share these interests or are exploring questions at the intersection of AI, psychology, and human flourishing, I'd be honored to connect. Let's explore together what's possible when we combine rigorous science with genuine care for human welfare.
@@ -723,7 +737,7 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2025 Honghui Chen. This work is licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">CC BY 4.0</a></p>
+            <p>&copy; 2026 Honghui Chen. This work is licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a></p>
             <p class="footer-note">Designed with inspiration from academic personal pages</p>
             <p class="visitor-count">
                 <span style="margin-right: 0.5rem;">👁️</span>
